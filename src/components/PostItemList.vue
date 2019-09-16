@@ -17,7 +17,7 @@
         <v-col cols="3">
           <v-text-field v-model="title" label="投稿のタイトルを入力してください"></v-text-field>
         </v-col>
-        <v-btn @click="createPost" color="primary">投稿する</v-btn>
+        <v-btn :class="postButtonClass" @click="createPost" color="primary">投稿する</v-btn>
       </v-row>
     </v-row>
   </v-container>
@@ -36,13 +36,27 @@ export default {
       query: ALL_POSTS_QUERY
     }
   },
-  data: () => ({
-    title: '',
-    posts: [],
-    loading: 0
-  }),
+  computed: {
+    notInputted() {
+      return this.title.length === 0
+    },
+    postButtonClass() {
+      return {
+        '-disabled': this.notInputted
+      }
+    }
+  },
+  data() {
+    return {
+      title: '',
+      posts: [],
+      loading: 0
+    }
+  },
   methods: {
     async createPost() {
+      if (this.notInputted) return;
+
       await this.$apollo.mutate( {
         mutation: CREATE_POST_MUTATION,
         variables: {
@@ -66,6 +80,10 @@ export default {
   .item-list {
     >.-centertext {
       text-align: center;
+    }
+    .-disabled {
+      pointer-events: none;
+      opacity: 0.5;
     }
   }
 </style>
