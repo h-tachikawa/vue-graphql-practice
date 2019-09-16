@@ -1,4 +1,4 @@
-# vue-graphql-practice
+# Vue.js+GraphQL Example
 
 ## Project setup
 ```

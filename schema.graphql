@@ -1,0 +1,560 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+"An object with an ID"
+interface Node {
+    "The id of the object."
+    id: ID!
+}
+
+type AggregatePost {
+    count: Int!
+}
+
+type AggregateUser {
+    count: Int!
+}
+
+type BatchPayload {
+    "The number of nodes that have been affected by the Batch operation."
+    count: Long!
+}
+
+type Mutation {
+    createPost(data: PostCreateInput!): Post!
+    createUser(data: UserCreateInput!): User!
+    deleteManyPosts(where: PostWhereInput): BatchPayload!
+    deleteManyUsers(where: UserWhereInput): BatchPayload!
+    deletePost(where: PostWhereUniqueInput!): Post
+    deleteUser(where: UserWhereUniqueInput!): User
+    updateManyPosts(data: PostUpdateManyMutationInput!, where: PostWhereInput): BatchPayload!
+    updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
+    updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
+    updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+    upsertPost(create: PostCreateInput!, update: PostUpdateInput!, where: PostWhereUniqueInput!): Post!
+    upsertUser(create: UserCreateInput!, update: UserUpdateInput!, where: UserWhereUniqueInput!): User!
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+    "When paginating forwards, the cursor to continue."
+    endCursor: String
+    "When paginating forwards, are there more items?"
+    hasNextPage: Boolean!
+    "When paginating backwards, are there more items?"
+    hasPreviousPage: Boolean!
+    "When paginating backwards, the cursor to continue."
+    startCursor: String
+}
+
+type Post implements Node {
+    author: User
+    id: ID!
+    published: Boolean!
+    title: String!
+}
+
+"A connection to a list of items."
+type PostConnection {
+    aggregate: AggregatePost!
+    "A list of edges."
+    edges: [PostEdge]!
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type PostEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: Post!
+}
+
+type PostPreviousValues {
+    id: ID!
+    published: Boolean!
+    title: String!
+}
+
+type PostSubscriptionPayload {
+    mutation: MutationType!
+    node: Post
+    previousValues: PostPreviousValues
+    updatedFields: [String!]
+}
+
+type Query {
+    "Fetches an object given its ID"
+    node(
+        #The ID of an object
+        id: ID!
+    ): Node
+    post(where: PostWhereUniqueInput!): Post
+    posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post]!
+    postsConnection(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): PostConnection!
+    user(where: UserWhereUniqueInput!): User
+    users(after: String, before: String, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): [User]!
+    usersConnection(after: String, before: String, first: Int, last: Int, orderBy: UserOrderByInput, skip: Int, where: UserWhereInput): UserConnection!
+}
+
+type Subscription {
+    post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+    user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type User implements Node {
+    email: String
+    id: ID!
+    name: String!
+    posts(after: String, before: String, first: Int, last: Int, orderBy: PostOrderByInput, skip: Int, where: PostWhereInput): [Post!]
+}
+
+"A connection to a list of items."
+type UserConnection {
+    aggregate: AggregateUser!
+    "A list of edges."
+    edges: [UserEdge]!
+    "Information to aid in pagination."
+    pageInfo: PageInfo!
+}
+
+"An edge in a connection."
+type UserEdge {
+    "A cursor for use in pagination."
+    cursor: String!
+    "The item at the end of the edge."
+    node: User!
+}
+
+type UserPreviousValues {
+    email: String
+    id: ID!
+    name: String!
+}
+
+type UserSubscriptionPayload {
+    mutation: MutationType!
+    node: User
+    previousValues: UserPreviousValues
+    updatedFields: [String!]
+}
+
+enum MutationType {
+    CREATED
+    DELETED
+    UPDATED
+}
+
+enum PostOrderByInput {
+    id_ASC
+    id_DESC
+    published_ASC
+    published_DESC
+    title_ASC
+    title_DESC
+}
+
+enum UserOrderByInput {
+    email_ASC
+    email_DESC
+    id_ASC
+    id_DESC
+    name_ASC
+    name_DESC
+}
+
+input PostCreateInput {
+    author: UserCreateOneWithoutPostsInput
+    id: ID
+    published: Boolean
+    title: String!
+}
+
+input PostCreateManyWithoutAuthorInput {
+    connect: [PostWhereUniqueInput!]
+    create: [PostCreateWithoutAuthorInput!]
+}
+
+input PostCreateWithoutAuthorInput {
+    id: ID
+    published: Boolean
+    title: String!
+}
+
+input PostScalarWhereInput {
+    "Logical AND on all given filters."
+    AND: [PostScalarWhereInput!]
+    "Logical NOT on all given filters combined by AND."
+    NOT: [PostScalarWhereInput!]
+    "Logical OR on all given filters."
+    OR: [PostScalarWhereInput!]
+    id: ID
+    "All values containing the given string."
+    id_contains: ID
+    "All values ending with the given string."
+    id_ends_with: ID
+    "All values greater than the given value."
+    id_gt: ID
+    "All values greater than or equal the given value."
+    id_gte: ID
+    "All values that are contained in given list."
+    id_in: [ID!]
+    "All values less than the given value."
+    id_lt: ID
+    "All values less than or equal the given value."
+    id_lte: ID
+    "All values that are not equal to given value."
+    id_not: ID
+    "All values not containing the given string."
+    id_not_contains: ID
+    "All values not ending with the given string."
+    id_not_ends_with: ID
+    "All values that are not contained in given list."
+    id_not_in: [ID!]
+    "All values not starting with the given string."
+    id_not_starts_with: ID
+    "All values starting with the given string."
+    id_starts_with: ID
+    published: Boolean
+    "All values that are not equal to given value."
+    published_not: Boolean
+    title: String
+    "All values containing the given string."
+    title_contains: String
+    "All values ending with the given string."
+    title_ends_with: String
+    "All values greater than the given value."
+    title_gt: String
+    "All values greater than or equal the given value."
+    title_gte: String
+    "All values that are contained in given list."
+    title_in: [String!]
+    "All values less than the given value."
+    title_lt: String
+    "All values less than or equal the given value."
+    title_lte: String
+    "All values that are not equal to given value."
+    title_not: String
+    "All values not containing the given string."
+    title_not_contains: String
+    "All values not ending with the given string."
+    title_not_ends_with: String
+    "All values that are not contained in given list."
+    title_not_in: [String!]
+    "All values not starting with the given string."
+    title_not_starts_with: String
+    "All values starting with the given string."
+    title_starts_with: String
+}
+
+input PostSubscriptionWhereInput {
+    "Logical AND on all given filters."
+    AND: [PostSubscriptionWhereInput!]
+    "Logical NOT on all given filters combined by AND."
+    NOT: [PostSubscriptionWhereInput!]
+    "Logical OR on all given filters."
+    OR: [PostSubscriptionWhereInput!]
+    "The subscription event gets dispatched when it's listed in mutation_in"
+    mutation_in: [MutationType!]
+    node: PostWhereInput
+    "The subscription event gets only dispatched when one of the updated fields names is included in this list"
+    updatedFields_contains: String
+    "The subscription event gets only dispatched when all of the field names included in this list have been updated"
+    updatedFields_contains_every: [String!]
+    "The subscription event gets only dispatched when some of the field names included in this list have been updated"
+    updatedFields_contains_some: [String!]
+}
+
+input PostUpdateInput {
+    author: UserUpdateOneWithoutPostsInput
+    published: Boolean
+    title: String
+}
+
+input PostUpdateManyDataInput {
+    published: Boolean
+    title: String
+}
+
+input PostUpdateManyMutationInput {
+    published: Boolean
+    title: String
+}
+
+input PostUpdateManyWithWhereNestedInput {
+    data: PostUpdateManyDataInput!
+    where: PostScalarWhereInput!
+}
+
+input PostUpdateManyWithoutAuthorInput {
+    connect: [PostWhereUniqueInput!]
+    create: [PostCreateWithoutAuthorInput!]
+    delete: [PostWhereUniqueInput!]
+    deleteMany: [PostScalarWhereInput!]
+    disconnect: [PostWhereUniqueInput!]
+    set: [PostWhereUniqueInput!]
+    update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
+    updateMany: [PostUpdateManyWithWhereNestedInput!]
+    upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+}
+
+input PostUpdateWithWhereUniqueWithoutAuthorInput {
+    data: PostUpdateWithoutAuthorDataInput!
+    where: PostWhereUniqueInput!
+}
+
+input PostUpdateWithoutAuthorDataInput {
+    published: Boolean
+    title: String
+}
+
+input PostUpsertWithWhereUniqueWithoutAuthorInput {
+    create: PostCreateWithoutAuthorInput!
+    update: PostUpdateWithoutAuthorDataInput!
+    where: PostWhereUniqueInput!
+}
+
+input PostWhereInput {
+    "Logical AND on all given filters."
+    AND: [PostWhereInput!]
+    "Logical NOT on all given filters combined by AND."
+    NOT: [PostWhereInput!]
+    "Logical OR on all given filters."
+    OR: [PostWhereInput!]
+    author: UserWhereInput
+    id: ID
+    "All values containing the given string."
+    id_contains: ID
+    "All values ending with the given string."
+    id_ends_with: ID
+    "All values greater than the given value."
+    id_gt: ID
+    "All values greater than or equal the given value."
+    id_gte: ID
+    "All values that are contained in given list."
+    id_in: [ID!]
+    "All values less than the given value."
+    id_lt: ID
+    "All values less than or equal the given value."
+    id_lte: ID
+    "All values that are not equal to given value."
+    id_not: ID
+    "All values not containing the given string."
+    id_not_contains: ID
+    "All values not ending with the given string."
+    id_not_ends_with: ID
+    "All values that are not contained in given list."
+    id_not_in: [ID!]
+    "All values not starting with the given string."
+    id_not_starts_with: ID
+    "All values starting with the given string."
+    id_starts_with: ID
+    published: Boolean
+    "All values that are not equal to given value."
+    published_not: Boolean
+    title: String
+    "All values containing the given string."
+    title_contains: String
+    "All values ending with the given string."
+    title_ends_with: String
+    "All values greater than the given value."
+    title_gt: String
+    "All values greater than or equal the given value."
+    title_gte: String
+    "All values that are contained in given list."
+    title_in: [String!]
+    "All values less than the given value."
+    title_lt: String
+    "All values less than or equal the given value."
+    title_lte: String
+    "All values that are not equal to given value."
+    title_not: String
+    "All values not containing the given string."
+    title_not_contains: String
+    "All values not ending with the given string."
+    title_not_ends_with: String
+    "All values that are not contained in given list."
+    title_not_in: [String!]
+    "All values not starting with the given string."
+    title_not_starts_with: String
+    "All values starting with the given string."
+    title_starts_with: String
+}
+
+input PostWhereUniqueInput {
+    id: ID
+}
+
+input UserCreateInput {
+    email: String
+    id: ID
+    name: String!
+    posts: PostCreateManyWithoutAuthorInput
+}
+
+input UserCreateOneWithoutPostsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateWithoutPostsInput
+}
+
+input UserCreateWithoutPostsInput {
+    email: String
+    id: ID
+    name: String!
+}
+
+input UserSubscriptionWhereInput {
+    "Logical AND on all given filters."
+    AND: [UserSubscriptionWhereInput!]
+    "Logical NOT on all given filters combined by AND."
+    NOT: [UserSubscriptionWhereInput!]
+    "Logical OR on all given filters."
+    OR: [UserSubscriptionWhereInput!]
+    "The subscription event gets dispatched when it's listed in mutation_in"
+    mutation_in: [MutationType!]
+    node: UserWhereInput
+    "The subscription event gets only dispatched when one of the updated fields names is included in this list"
+    updatedFields_contains: String
+    "The subscription event gets only dispatched when all of the field names included in this list have been updated"
+    updatedFields_contains_every: [String!]
+    "The subscription event gets only dispatched when some of the field names included in this list have been updated"
+    updatedFields_contains_some: [String!]
+}
+
+input UserUpdateInput {
+    email: String
+    name: String
+    posts: PostUpdateManyWithoutAuthorInput
+}
+
+input UserUpdateManyMutationInput {
+    email: String
+    name: String
+}
+
+input UserUpdateOneWithoutPostsInput {
+    connect: UserWhereUniqueInput
+    create: UserCreateWithoutPostsInput
+    delete: Boolean
+    disconnect: Boolean
+    update: UserUpdateWithoutPostsDataInput
+    upsert: UserUpsertWithoutPostsInput
+}
+
+input UserUpdateWithoutPostsDataInput {
+    email: String
+    name: String
+}
+
+input UserUpsertWithoutPostsInput {
+    create: UserCreateWithoutPostsInput!
+    update: UserUpdateWithoutPostsDataInput!
+}
+
+input UserWhereInput {
+    "Logical AND on all given filters."
+    AND: [UserWhereInput!]
+    "Logical NOT on all given filters combined by AND."
+    NOT: [UserWhereInput!]
+    "Logical OR on all given filters."
+    OR: [UserWhereInput!]
+    email: String
+    "All values containing the given string."
+    email_contains: String
+    "All values ending with the given string."
+    email_ends_with: String
+    "All values greater than the given value."
+    email_gt: String
+    "All values greater than or equal the given value."
+    email_gte: String
+    "All values that are contained in given list."
+    email_in: [String!]
+    "All values less than the given value."
+    email_lt: String
+    "All values less than or equal the given value."
+    email_lte: String
+    "All values that are not equal to given value."
+    email_not: String
+    "All values not containing the given string."
+    email_not_contains: String
+    "All values not ending with the given string."
+    email_not_ends_with: String
+    "All values that are not contained in given list."
+    email_not_in: [String!]
+    "All values not starting with the given string."
+    email_not_starts_with: String
+    "All values starting with the given string."
+    email_starts_with: String
+    id: ID
+    "All values containing the given string."
+    id_contains: ID
+    "All values ending with the given string."
+    id_ends_with: ID
+    "All values greater than the given value."
+    id_gt: ID
+    "All values greater than or equal the given value."
+    id_gte: ID
+    "All values that are contained in given list."
+    id_in: [ID!]
+    "All values less than the given value."
+    id_lt: ID
+    "All values less than or equal the given value."
+    id_lte: ID
+    "All values that are not equal to given value."
+    id_not: ID
+    "All values not containing the given string."
+    id_not_contains: ID
+    "All values not ending with the given string."
+    id_not_ends_with: ID
+    "All values that are not contained in given list."
+    id_not_in: [ID!]
+    "All values not starting with the given string."
+    id_not_starts_with: ID
+    "All values starting with the given string."
+    id_starts_with: ID
+    name: String
+    "All values containing the given string."
+    name_contains: String
+    "All values ending with the given string."
+    name_ends_with: String
+    "All values greater than the given value."
+    name_gt: String
+    "All values greater than or equal the given value."
+    name_gte: String
+    "All values that are contained in given list."
+    name_in: [String!]
+    "All values less than the given value."
+    name_lt: String
+    "All values less than or equal the given value."
+    name_lte: String
+    "All values that are not equal to given value."
+    name_not: String
+    "All values not containing the given string."
+    name_not_contains: String
+    "All values not ending with the given string."
+    name_not_ends_with: String
+    "All values that are not contained in given list."
+    name_not_in: [String!]
+    "All values not starting with the given string."
+    name_not_starts_with: String
+    "All values starting with the given string."
+    name_starts_with: String
+    posts_every: PostWhereInput
+    posts_none: PostWhereInput
+    posts_some: PostWhereInput
+}
+
+input UserWhereUniqueInput {
+    email: String
+    id: ID
+}
+
+
+"The `Long` scalar type represents non-fractional signed whole numeric values. Long can represent values between -(2^63) and 2^63 - 1."
+scalar Long
